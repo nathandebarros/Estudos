@@ -1,4 +1,4 @@
-import random
+import random #importando a biblioteca responsável pela escolha do computador
 
 
 
