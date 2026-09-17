@@ -19,8 +19,21 @@ def corpo(matriz):
                 print("|O|", end="")
         print()
 
+def AnalisaLinha(matriz):
+    global Player1Venceu
+    global Player2Venceu
+    Player1Venceu = Player2Venceu = False
+    for i in range(len(matriz)):
+        if matriz[i][0] == 1 and matriz[i][1] == 1 and matriz[i][2]== 1:
+            Player1Venceu = True
+            return Player1Venceu
+        elif matriz[i][0] == 2 and matriz[i][1] == 2 and matriz[i][2]== 2:
+            Player2Venceu = True
+            return Player2Venceu
+
+
 #função responsável por registrar as jogadas dos jogadores
-def jogada():
+def jogadaX():
     OpcaoInvalida = False
 
     X = input("X - Insira as coordenadas da sua jogada: ").split()
@@ -36,33 +49,33 @@ def jogada():
                 OpcaoInvalida = False
             else:
                 print("Opção invalida, tente novamente.")
+    
 
-
+def jogadaO():
+    OpcaoInvalida = False
     O = input("O - Insira as coordenadas da sua jogada: ").split()
     if ((0 <= int(O[0]) <=2 ) and (0 <= int(O[1]) <=2) and matriz[int(O[0])][int(O[1])] == 0):
         matriz[int(O[0])][int(O[1])] = 2
     else:
-        print("Opção invalida, tente novamente.")
         OpcaoInvalida = True
         while(OpcaoInvalida):
+            print("Opção invalida, tente novamente.")
             O = input("O - Insira as coordenadas da sua jogada: ").split()
             if((0 <= int(O[0]) <=2 ) and (0 <= int(O[1]) <=2) and matriz[int(O[0])][int(O[1])] == 0):
                 matriz[int(O[0])][int(O[1])] = 2
                 OpcaoInvalida = False
-        
+    AnalisaLinha(matriz)
+    
 
-def AnalisaLinha(matriz):
-    global Player1Venceu, Player2Venceu
-    Player1Venceu = False
-    Player2Venceu = False
-    for i in range(len(matriz)):
-        if matriz[i][0] == 1 and matriz[i][1] == 1 and matriz[i][2]== 1:
-            print("O jogador X venceu.")
-            Player1Venceu = True
-        elif matriz[i][0] == 2 and matriz[i][1] == 2 and matriz[i][2]== 2:
-            print("O jogador O venceu.")
-            Player2Venceu = True
+
+
+
+def AnalisaDiagonal(matriz):
         
+        if matriz[0][0] == 1 and matriz[1][1] == 1 and matriz[2][2] == 1:
+            print("O jogador X venceu.")
+        elif matriz[0][0] == 1 and matriz[1][1] == 1 and matriz[2][2] == 1:
+            print("O jogador O Venceu.")
 
 #função resposável por registar as jogadas dos jogadores
 print("-----------------------------------------\n\t      JOGO DA VELHA  \n-----------------------------------------")
@@ -82,13 +95,17 @@ continuar = True
 
 while continuar:
     corpo(matriz)
-    jogada()
+    jogadaX()
+    corpo(matriz)
     AnalisaLinha(matriz)
-    if Player1Venceu or Player2Venceu:
-        corpo(matriz)
-        continuar = False
-
-
+    if Player1Venceu:
+        print("O jogador X venceu.")
+        break
+    jogadaO()
+    AnalisaLinha(matriz)
+    if Player2Venceu:
+        print("O jogador O venceu.")
+        break
 
 
 
